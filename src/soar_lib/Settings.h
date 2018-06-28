@@ -57,8 +57,9 @@ private:
 	
 	/// \name Parameters stored in binary and ascii config, managed by the ParamManager 
 	/// @{ 
-	bool     _run_forward;         ///< Run backward simulation
-	bool     _run_backward;        ///< Run forward simulation
+	bool     _run_forward;         ///< Run forward simulation
+	bool     _run_backward;        ///< Run backward simulation
+	bool     _user_init_start_pop; ///< User-defined initialization of start population NEW
 	bool     _enable_migration;    ///< Enable migration option
 	bool     _enable_health_dim;   ///< Enable health dimension
 	bool     _calibrate_theta;     ///< Backward calibrate theta
@@ -192,6 +193,7 @@ public:
 	
 	/// \name Setters
 	/// @{ 
+	void SetUserInitStartPop(bool userinitstartpop)  { _user_init_start_pop; } 
 	void SetN(unsigned int n)			{ _n = n; }                 ///< Set number of years for backward computation
 	void SetNMin(unsigned int nmin)     { _n_min = nmin; }
     void SetNFW(unsigned int n)		    { _n_fw = n; }              ///< Set number of years for forward computation
@@ -256,6 +258,7 @@ public:
 	/// @{ 
 	bool   GetRunForward()		      { return _run_forward;  }
 	bool   GetRunBackward()		      { return _run_backward; }
+	bool   GetUserInitStartPop()      { return _user_init_start_pop; } 
 	bool   GetEnableMigration()       { return _enable_migration; }
 	bool   GetEnableHealthDim()       { return _enable_health_dim; }
 
@@ -265,12 +268,11 @@ public:
 	bool   GetCalibrateTheta()        { return _calibrate_theta; }
 	double GetCalibrationThetaMin()   { return _calibrate_theta_min; }
 
-
-    unsigned int GetNFW()			  { return _n_fw; }
-	unsigned int GetNMinFW()		  { return _n_min_fw; }	
-	char        *GetFilePrefixFW()	  { return _file_prefix_fw; }
-    unsigned int GetStartWeekFW()     { return _start_week_fw; }
-	unsigned int GetStartLocationFW() { return _start_loc_fw; }
+    unsigned int GetNFW()			   { return _n_fw; }
+	unsigned int GetNMinFW()		   { return _n_min_fw; }	
+	char        *GetFilePrefixFW()	   { return _file_prefix_fw; }
+    unsigned int GetStartWeekFW()      { return _start_week_fw; }
+	unsigned int GetStartLocationFW()  { return _start_loc_fw; }
 
     unsigned int GetTCnt()		{ return _t_cnt; }
 	unsigned int GetGridX()		{ return _grid_x; }

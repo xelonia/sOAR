@@ -32,11 +32,11 @@
 
 #include "StateFuncs.h"
 #include "..\soar_support_lib\NArray.h"
-#include "Settings.h"
 
 // Forward declarations of external classes
 class Decision;
 class Individual;
+class Settings;
 
 /**
  * \ingroup SoarLib
@@ -91,6 +91,20 @@ private:
 
 	unsigned int    _xi_max;
 	unsigned int    _yi_max;
+
+	// ----------- NEW (start) -------------------
+	char            _filename_fw_pd[FILENAME_MAX];  // PopulationDynamics
+	bool            _user_init_start_pop;
+	double          _lambda_fw_average;
+	double          _fw_convergence; 
+	bool            _fw_year_conv; 
+	int             _lambda_fw_state;
+	double          _lambda_fw_worst; 
+	double          _fw_notconv_count;
+	int             _fw_state_count;
+	bool            _fw_initialized; 
+
+	// ----------- NEW (end) ---------------------
 
 #ifdef GENERATE_DOXYGEN_DOC
     Individual * _population;
@@ -183,6 +197,15 @@ public:
 
     double ComputePopulationDynamics(Settings *settings);   
     void   SavePopulationDynamics(char *filename); 
+
+	// -------- NEW (start) ----------------------------------
+	/**
+	* \brief Load all dimensions and arrays from a single binary file; 
+	* \return True if succesfull, else loading error
+	*/
+	bool LoadFwFromFile(char *filename);
+	///@} End of group started by \name
+	// -------- NEW (end) ----------------------------------
 
 };
 

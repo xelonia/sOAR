@@ -292,6 +292,15 @@ public:
 
 
 		if (_settings->GetRunForward() ) {
+
+			//// --------- NEW (start) -----------------------------
+			//if ( _settings->GetUserInitStartPop() ) {	
+			//	if ( !_decision->LoadFromFile(_filename_bw_dec) ) {	 
+			//	exit(-1); 
+			//	}	
+			//}	
+			//// --------- NEW (end) -------------------------------
+
 			printf("########## Running Forward::Compute()\n");
 
 			NanoTimer timerTotal;

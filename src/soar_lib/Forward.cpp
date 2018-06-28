@@ -81,7 +81,37 @@ void   Forward::SavePopulationDynamics(char *filename)
 	fclose(file);
 }
 
+// --- START NEW -----------------------
 
+bool Forward::LoadFwFromFile(char *filename) 
+{
+	FILE *file = fopen(filename,"rb");
+	if (file==0) {
+		printf("Forward::load_from_file(%s) error opening the file for reading\n",filename);
+		return false;
+	}
+
+	if (!_FW_props.LoadBinary(file) ) {
+		printf("Forward::load_from_file(%s) error file read error on 'FW_props'\n",filename);
+		return false;
+	}
+	
+	fread(&_conv.lambda_fw_average,1,sizeof(double), file); 
+	fread(&_conv.fw_convergence,1,sizeof(double), file);
+	fread(&_conv.fw_year_conv,1,sizeof(bool), file);
+	fread(&_conv.lambda_fw_state,1,sizeof(int), file);
+	fread(&_conv.lambda_fw_worst,1,sizeof(double), file);    
+	fread(&_conv.fw_notconv_count,1,sizeof(double), file);     
+	fread(&_conv.fw_state_count,1,sizeof(int), file);        
+
+	fclose(file);
+
+	_fw_initialized = true;
+
+	return true;
+}
+
+// --- END NEW -------------------------
 
 // grid functions and stochasticity
 
@@ -453,10 +483,11 @@ void Forward::Init(Settings *settings)
 
 	InitStateFuncs(settings, _decision->GetTheta() );
 
-	_n_fw              = settings->GetNFW();
-	_n_min_fw          = settings->GetNMinFW();
-	_start_week_fw     = settings->GetStartWeekFW();
-	_start_loc_fw      = settings->GetStartLocationFW();
+	_user_init_start_pop = settings->GetUserInitStartPop();  
+	_n_fw                = settings->GetNFW();
+	_n_min_fw            = settings->GetNMinFW();
+	_start_week_fw       = settings->GetStartWeekFW();
+	_start_loc_fw        = settings->GetStartLocationFW();
 
 	_t_cnt             = settings->GetTCnt();
 	_n_brood           = settings->GetNBrood();
@@ -635,12 +666,28 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 	FwStochXYPropResultStruct cases;
 	Stoch_HMcN(_x_indep, _y_indep, cases);
 
-	for (unsigned int xi=0; xi<_xi_max; xi++) {
-		for (unsigned int yi=0; yi<_yi_max; yi++) {
-			FW_props(cases.x_grid[xi],cases.y_grid[yi],0,0,_start_loc_fw-1,0,_start_week_fw) += cases.x_prop[xi]*cases.y_prop[yi];
-		}}
+	if ( _user_init_start_pop) {	 // ->GetUserInitStartPop()?
+		sprintf_s(_filename_fw_pd , "%s_populationdynamics_FW.bin", settings->GetFilePrefixFW());
+		if ( !LoadFwFromFile(_filename_fw_pd) ) {
+			printf("Error loading forward results");
+		}
+		else {
+			LoadFwFromFile(_filename_fw_pd);
+			double test;
+			test = _conv.lambda_fw_average;			
+			FW_props = _FW_props; 
+		}
+		//if ( !_decision->LoadFwFromFile(_filename_bw_dec) ) {			
+		//exit(-1); 
+		//}	
+	}	
+	else {
+		for (unsigned int xi=0; xi<_xi_max; xi++) {
+			for (unsigned int yi=0; yi<_yi_max; yi++) {
+				FW_props(cases.x_grid[xi],cases.y_grid[yi],0,0,_start_loc_fw-1,0,_start_week_fw) += cases.x_prop[xi]*cases.y_prop[yi];
+			}}
 
-
+	} 
 	//-------------------------------------------
 
 	double lambda_old_fw = 0;

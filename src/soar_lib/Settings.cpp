@@ -49,6 +49,7 @@ Settings::Settings() {
 	
 	//-- Forward general settings
 	_pm.Add(_n_fw,                 "ForwardMaximumNumberOfIterations");
+	_pm.Add(_n_min_fw,             "ForwardMinimumNumberOfIterations", true);
 	_pm.Add(_file_prefix_fw,       "ForwardFilePrefix");
 	_pm.Add(_start_week_fw,        "ForwardStartEpoch");      
 	_pm.Add(_start_loc_fw,         "ForwardStartLocation");

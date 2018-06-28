@@ -690,6 +690,11 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 	double lambda_old_fw = 0;
 	double dlambda_fw = 999;
 	unsigned int year=0; 
+	unsigned int t_start_week = _start_week_fw;
+
+	if (_user_init_start_pop)
+		t_start_week = 0;	
+
 
 	bool errorInSimulation = false; // Quick exit of loops due to 'no more living' or 'exponential growth'
 
@@ -698,11 +703,9 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 
 		FW_old = FW_props;
 
-		for (unsigned int t=0;t<_t_cnt;t++) {
+		for (unsigned int t=t_start_week;t<_t_cnt;t++) {
 
-			if (_user_init_start_pop || year > 0 || t >= _start_week_fw)
-			{
-				// reset t+1 values to zero
+				// reset t+1 values to zero 
 				for (unsigned int x=0;x<_x_cnt;x++) {
 					for (unsigned int y=0;y<_y_cnt;y++) {
 						for (unsigned int e=0;e<_e_cnt;e++) {
@@ -843,7 +846,10 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 
 									}}}}}} // end loop over states
 
-			}} // end loop over weeks
+			} // end loop over weeks
+
+		// The years following the first one (which starts at t_start_week) will start at week zero:
+		t_start_week = 0;
 
 		// calculate lambda & check convergence
 

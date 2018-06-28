@@ -1,0 +1,28 @@
+/* The extension for doxygen CSS */
+                                 
+.contents hr:first-child {  
+	  /* border-top: 1px solid #FF0000; */
+    /* display:none; */
+}
+
+div.groupHeader {
+    font-size: 120%;  
+    margin-top: 2em; 
+    font-weight: normal;
+    color: #354C7B;
+    margin-left: 0em;
+    /* text-decoration: underline; */
+    /* font-style: italic; */
+    /* border-top: 1px solid #FF0000; */  
+}
+
+div.groupText {   
+  font-style:  normal; 
+}
+
+
+.mdescLeft, .memItemLeft, .memTemplItemLeft, .memTemplParams  {
+  padding: 1px 0 0 2em;
+}
+
+

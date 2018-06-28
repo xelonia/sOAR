@@ -1,0 +1,41 @@
+
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "soar_main", "soar_main\soar_main.vcproj", "{3B9AD806-DA66-49A2-9E2B-724676D8B55F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{09D8A9D7-EDD3-4CF6-8C41-EF229C1B201C} = {09D8A9D7-EDD3-4CF6-8C41-EF229C1B201C}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "soar_lib", "soar_lib\soar_lib.vcproj", "{9A18EBD8-638F-4C15-B8CB-0F06684A3410}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "soar_support_lib", "soar_support_lib\soar_support_lib.vcproj", "{09D8A9D7-EDD3-4CF6-8C41-EF229C1B201C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcproj", "{9E70DD48-00A0-457B-9C8B-36454D104061}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3B9AD806-DA66-49A2-9E2B-724676D8B55F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3B9AD806-DA66-49A2-9E2B-724676D8B55F}.Debug|Win32.Build.0 = Debug|Win32
+		{3B9AD806-DA66-49A2-9E2B-724676D8B55F}.Release|Win32.ActiveCfg = Release|Win32
+		{3B9AD806-DA66-49A2-9E2B-724676D8B55F}.Release|Win32.Build.0 = Release|Win32
+		{9A18EBD8-638F-4C15-B8CB-0F06684A3410}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9A18EBD8-638F-4C15-B8CB-0F06684A3410}.Debug|Win32.Build.0 = Debug|Win32
+		{9A18EBD8-638F-4C15-B8CB-0F06684A3410}.Release|Win32.ActiveCfg = Release|Win32
+		{9A18EBD8-638F-4C15-B8CB-0F06684A3410}.Release|Win32.Build.0 = Release|Win32
+		{09D8A9D7-EDD3-4CF6-8C41-EF229C1B201C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{09D8A9D7-EDD3-4CF6-8C41-EF229C1B201C}.Debug|Win32.Build.0 = Debug|Win32
+		{09D8A9D7-EDD3-4CF6-8C41-EF229C1B201C}.Release|Win32.ActiveCfg = Release|Win32
+		{09D8A9D7-EDD3-4CF6-8C41-EF229C1B201C}.Release|Win32.Build.0 = Release|Win32
+		{9E70DD48-00A0-457B-9C8B-36454D104061}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9E70DD48-00A0-457B-9C8B-36454D104061}.Debug|Win32.Build.0 = Debug|Win32
+		{9E70DD48-00A0-457B-9C8B-36454D104061}.Release|Win32.ActiveCfg = Release|Win32
+		{9E70DD48-00A0-457B-9C8B-36454D104061}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

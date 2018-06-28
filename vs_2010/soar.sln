@@ -1,0 +1,46 @@
+
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "soar_main", "soar_main\soar_main.vcxproj", "{91D31A8C-BE0A-4888-B0C7-22B6E012E9C3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E969033D-05AD-4C47-9F4E-1C9BB3ED487E} = {E969033D-05AD-4C47-9F4E-1C9BB3ED487E}
+		{ADF2BB5E-B707-46E4-BD1F-60B3335674EF} = {ADF2BB5E-B707-46E4-BD1F-60B3335674EF}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "soar_lib", "soar_lib\soar_lib.vcxproj", "{E969033D-05AD-4C47-9F4E-1C9BB3ED487E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "soar_support_lib", "soar_support_lib\soar_support_lib.vcxproj", "{ADF2BB5E-B707-46E4-BD1F-60B3335674EF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{B8E4D83C-D260-471B-8B13-DFE15DCF4BC0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E969033D-05AD-4C47-9F4E-1C9BB3ED487E} = {E969033D-05AD-4C47-9F4E-1C9BB3ED487E}
+		{ADF2BB5E-B707-46E4-BD1F-60B3335674EF} = {ADF2BB5E-B707-46E4-BD1F-60B3335674EF}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91D31A8C-BE0A-4888-B0C7-22B6E012E9C3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{91D31A8C-BE0A-4888-B0C7-22B6E012E9C3}.Debug|Win32.Build.0 = Debug|Win32
+		{91D31A8C-BE0A-4888-B0C7-22B6E012E9C3}.Release|Win32.ActiveCfg = Release|Win32
+		{91D31A8C-BE0A-4888-B0C7-22B6E012E9C3}.Release|Win32.Build.0 = Release|Win32
+		{E969033D-05AD-4C47-9F4E-1C9BB3ED487E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E969033D-05AD-4C47-9F4E-1C9BB3ED487E}.Debug|Win32.Build.0 = Debug|Win32
+		{E969033D-05AD-4C47-9F4E-1C9BB3ED487E}.Release|Win32.ActiveCfg = Release|Win32
+		{E969033D-05AD-4C47-9F4E-1C9BB3ED487E}.Release|Win32.Build.0 = Release|Win32
+		{ADF2BB5E-B707-46E4-BD1F-60B3335674EF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ADF2BB5E-B707-46E4-BD1F-60B3335674EF}.Debug|Win32.Build.0 = Debug|Win32
+		{ADF2BB5E-B707-46E4-BD1F-60B3335674EF}.Release|Win32.ActiveCfg = Release|Win32
+		{ADF2BB5E-B707-46E4-BD1F-60B3335674EF}.Release|Win32.Build.0 = Release|Win32
+		{B8E4D83C-D260-471B-8B13-DFE15DCF4BC0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B8E4D83C-D260-471B-8B13-DFE15DCF4BC0}.Debug|Win32.Build.0 = Debug|Win32
+		{B8E4D83C-D260-471B-8B13-DFE15DCF4BC0}.Release|Win32.ActiveCfg = Release|Win32
+		{B8E4D83C-D260-471B-8B13-DFE15DCF4BC0}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -8,3 +8,7 @@ obj
 /vs_2010/soar_main/*.bin
 /vs_2010/soar_main/*.txt
 *.ipch
+/LocalConfig.cfg
+*.bin
+*.ncb
+/sOAR_example_NrBroodCycles_summary_BW.txt

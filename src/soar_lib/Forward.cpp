@@ -674,6 +674,7 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 			exit(-1);
 		}
 		else {			
+			printf("Forward::ComputePopulationDynamics() loaded initial start population from file\n");
 			FW_props = _FW_props; 
 		}
 	}	
@@ -685,6 +686,7 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 
 	} 
 	//-------------------------------------------
+	printf("\n");
 
 	double lambda_old_fw = 0;
 	double dlambda_fw = 999;

@@ -81,7 +81,6 @@ void   Forward::SavePopulationDynamics(char *filename)
 	fclose(file);
 }
 
-// --- START NEW -----------------------
 
 bool Forward::LoadFwFromFile(char *filename) 
 {
@@ -111,7 +110,7 @@ bool Forward::LoadFwFromFile(char *filename)
 	return true;
 }
 
-// --- END NEW -------------------------
+
 
 // grid functions and stochasticity
 
@@ -483,6 +482,8 @@ void Forward::Init(Settings *settings)
 
 	InitStateFuncs(settings, _decision->GetTheta() );
 
+	_conv.fw_convergence = false;
+
 	_user_init_start_pop = settings->GetUserInitStartPop();  
 	_n_fw                = settings->GetNFW();
 	_n_min_fw            = settings->GetNMinFW();
@@ -672,9 +673,7 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 			printf("Error loading forward results");
 			exit(-1);
 		}
-		else {
-			double test;
-			test = _conv.lambda_fw_average;			
+		else {			
 			FW_props = _FW_props; 
 		}
 	}	
@@ -858,14 +857,21 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 		lambda       = _conv.lambda_fw_average;
 		convergence  = _conv.fw_convergence;
 		lambda_state = _conv.lambda_fw_state;
+		if (convergence) {
+			_conv.fw_year_conv = year;
+		}			
 
-//		printf("=========== Forward iteration %2d done,  Lambda Fwd = %.4f\n\n", year, lambda_state);
-
+//		printf("=========== Forward iteration %2d done,  Lambda Fwd = %.4f\n\n", year, lambda_state);		
 
 		printf("=========== Forward iteration %2d  done ===========\n",year);	 
 		printf("........... Lambda:  average = %f   specific state = %f\n",_conv.lambda_fw_average,_conv.lambda_fw_state);
 		printf("........... Lambda:  worst   = %f   not converged %d of %d \n", _conv.lambda_fw_worst,_conv.fw_notconv_count,_conv.fw_state_count );
 		printf("\n");
+
+		if (_user_init_start_pop) {
+			sprintf_s(_filename_fw_pd_year , "%s_populationdynamics_FW_%2d.bin", settings->GetFilePrefixFW(),year);
+			SavePopulationDynamics(_filename_fw_pd_year);
+		}
 
 		dlambda_fw    = fabs(lambda-lambda_old_fw);
 		lambda_old_fw = lambda;

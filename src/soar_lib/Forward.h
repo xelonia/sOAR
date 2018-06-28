@@ -92,8 +92,8 @@ private:
 	unsigned int    _xi_max;
 	unsigned int    _yi_max;
 
-	// ----------- NEW (start) -------------------
 	char            _filename_fw_pd[FILENAME_MAX];  // PopulationDynamics
+	char            _filename_fw_pd_year[FILENAME_MAX];	// Population dynamics in a single year
 	bool            _user_init_start_pop;
 	double          _lambda_fw_average;
 	double          _fw_convergence; 
@@ -104,7 +104,6 @@ private:
 	int             _fw_state_count;
 	bool            _fw_initialized; 
 
-	// ----------- NEW (end) ---------------------
 
 #ifdef GENERATE_DOXYGEN_DOC
     Individual * _population;

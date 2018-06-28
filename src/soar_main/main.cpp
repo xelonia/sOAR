@@ -313,7 +313,13 @@ public:
 		
 			{
 				lambda = fwOpt.ComputePopulationDynamics( _settings);  // cf. Toekoelyi
-				fwOpt.SavePopulationDynamics(_filename_fw_pd);
+				if (_settings->GetUserInitStartPop()) {
+					sprintf_s(_filename_fw_pd, "%s_populationdynamics_FW_finalYear.bin", _settings->GetFilePrefixFW());
+					fwOpt.SavePopulationDynamics(_filename_fw_pd);
+				}
+				else {
+					fwOpt.SavePopulationDynamics(_filename_fw_pd);
+				}
 			}
 
 

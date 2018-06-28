@@ -1,0 +1,6 @@
+bin
+obj
+/vs_2010/*.suo
+/vs_2010/soar_lib/*.user
+/vs_2010/*.sdf
+*.user

@@ -7,3 +7,4 @@ obj
 /vs_2010/soar.opensdf
 /vs_2010/soar_main/*.bin
 /vs_2010/soar_main/*.txt
+*.ipch

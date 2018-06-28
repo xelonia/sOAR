@@ -97,11 +97,11 @@ bool Forward::LoadFwFromFile(char *filename)
 	}
 	
 	fread(&_conv.lambda_fw_average,1,sizeof(double), file); 
-	fread(&_conv.fw_convergence,1,sizeof(double), file);
-	fread(&_conv.fw_year_conv,1,sizeof(bool), file);
-	fread(&_conv.lambda_fw_state,1,sizeof(int), file);
+	fread(&_conv.fw_convergence,1,sizeof(bool), file);
+	fread(&_conv.fw_year_conv,1,sizeof(int), file);
+	fread(&_conv.lambda_fw_state,1,sizeof(double), file);
 	fread(&_conv.lambda_fw_worst,1,sizeof(double), file);    
-	fread(&_conv.fw_notconv_count,1,sizeof(double), file);     
+	fread(&_conv.fw_notconv_count,1,sizeof(int), file);     
 	fread(&_conv.fw_state_count,1,sizeof(int), file);        
 
 	fclose(file);
@@ -670,16 +670,13 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 		sprintf_s(_filename_fw_pd , "%s_populationdynamics_FW.bin", settings->GetFilePrefixFW());
 		if ( !LoadFwFromFile(_filename_fw_pd) ) {
 			printf("Error loading forward results");
+			exit(-1);
 		}
 		else {
-			LoadFwFromFile(_filename_fw_pd);
 			double test;
 			test = _conv.lambda_fw_average;			
 			FW_props = _FW_props; 
 		}
-		//if ( !_decision->LoadFwFromFile(_filename_bw_dec) ) {			
-		//exit(-1); 
-		//}	
 	}	
 	else {
 		for (unsigned int xi=0; xi<_xi_max; xi++) {
@@ -703,7 +700,7 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 
 		for (unsigned int t=0;t<_t_cnt;t++) {
 
-			if (year > 0 || t >= _start_week_fw)
+			if (_user_init_start_pop || year > 0 || t >= _start_week_fw)
 			{
 				// reset t+1 values to zero
 				for (unsigned int x=0;x<_x_cnt;x++) {

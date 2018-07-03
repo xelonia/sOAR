@@ -441,8 +441,8 @@ bool Settings::ValidateSettings()
 			printf("Error:  env_food_supply  dimensionality != 2\n");  
 			okay = false;
 		}
-		else if (_env_food_supply.GetDim(0)!=_t_cnt || _env_food_supply.GetDim(1)!=_o_cnt+1) {
-			printf("Error:  env_food_supply is %d x %d instead of   %d (timesteps) x %d (location count +1)\n",_env_food_supply.GetDim(0),_env_food_supply.GetDim(1),_t_cnt,_o_cnt+1);  
+		else if (_env_food_supply.GetDim(0)!=_t_cnt || _env_food_supply.GetDim(1)!=_o_cnt) {
+			printf("Error:  env_food_supply is %d x %d instead of   %d (timesteps) x %d (location count)\n",_env_food_supply.GetDim(0),_env_food_supply.GetDim(1),_t_cnt,_o_cnt);  	
 			okay = false;
 		}
 	}

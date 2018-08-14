@@ -667,7 +667,7 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 	FwStochXYPropResultStruct cases;
 	Stoch_HMcN(_x_indep, _y_indep, cases);
 
-	if ( _user_init_start_pop) {	 // ->GetUserInitStartPop()?
+	if ( _user_init_start_pop) {	 
 		sprintf_s(_filename_fw_pd , "%s_populationdynamics_FW.bin", settings->GetFilePrefixFW());
 		if ( !LoadFwFromFile(_filename_fw_pd) ) {
 			printf("Error loading forward results");
@@ -870,6 +870,9 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 		printf("........... Lambda:  worst   = %f   not converged %d of %d \n", _conv.lambda_fw_worst,_conv.fw_notconv_count,_conv.fw_state_count );
 		printf("\n");
 
+		// store/overwrite results
+		_FW_props = FW_props;		
+
 		if (_user_init_start_pop) {
 			sprintf_s(_filename_fw_pd_year , "%s_populationdynamics_FW_%2d.bin", settings->GetFilePrefixFW(),year);
 			SavePopulationDynamics(_filename_fw_pd_year);
@@ -880,10 +883,8 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 		year++;
 
 		// } // end loop over years
-	} // end while loop over years and dlambda             
+	} // end while loop over years and dlambda    
 
-	// store results
-	_FW_props = FW_props;
 	return (lambda);
 
 }

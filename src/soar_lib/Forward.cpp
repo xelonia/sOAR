@@ -586,7 +586,7 @@ void Forward::CalcLambdaAndConvergence(NArray<double> &FW_props, NArray<double> 
 				for (unsigned int a=0;a<_a_cnt;a++)	{
 					for (unsigned int o=0; o<_o_cnt; o++) {
 						for (unsigned int s=0; s<_s_cnt; s++) {
-							for (unsigned int t=0;t<_t_cnt;t++)
+							for (unsigned int t=0;t<_t_cnt;t++) 
 							{
 								double oldVal = FW_old(x,y,e,a,o,s,t);
 								double newVal = FW_props(x,y,e,a,o,s,t);
@@ -675,7 +675,7 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 		}
 		else {			
 			printf("Forward::ComputePopulationDynamics() loaded initial start population from file\n");
-			FW_props = _FW_props; 
+			FW_props = _FW_props;
 		}
 	}	
 	else {
@@ -701,7 +701,6 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 
 	while ((!convergence && year<_n_fw) || year<_n_min_fw)
 	{	
-
 		FW_old = FW_props;
 
 		for (unsigned int t=t_start_week;t<_t_cnt;t++) {

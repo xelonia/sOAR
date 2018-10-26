@@ -355,7 +355,7 @@ double Backward::H_c (double x, double y, int e, int a, int o, int s, int t, dou
 
 double Backward::H_m (double x, double y, int e, int a, int o, int s, int t, double u) {
 	double x_m_val = X_m(x,e,a,o,s,u,t);
-	double y_m_val = Y_m(x,y,o,s,u,t);
+	double y_m_val = Y_m(x,y,e,o,s,u,t);
 	
 	BwStochResultStruct res;
 	Stoch_HMcN(x_m_val, y_m_val, res);

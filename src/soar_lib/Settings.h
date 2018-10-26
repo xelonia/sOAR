@@ -104,10 +104,10 @@ private:
 
 	unsigned int    _migr_dur;    ///< Duration of migration
 	double _m_migr;               ///< Predation risk during migration per decision epoch
-	double _dres_migr_act;        ///< Reserve costs of active flight
-	double _dres_migr_pas;        ///< Reserve costs of passive flight
-	double _dcond_migr_act;       ///< Health costs of active flight
-	double _dcond_migr_pas;       ///< Health costs of passive flight
+	FuncType _dres_migr_act;        ///< Reserve costs of active flight
+	FuncType _dres_migr_pas;        ///< Reserve costs of passive flight
+	FuncType _dcond_migr_act;       ///< Health costs of active flight
+	FuncType _dcond_migr_pas;       ///< Health costs of passive flight
 
 	double _p_active_flight_const;  ///< Probability of active flight  (if no CSV array is given)
 
@@ -230,11 +230,7 @@ public:
 
     void SetMigrDur(unsigned int migrDur)     { _migr_dur = migrDur; ComputeDependentParameters(); }
 	void SetMMigr(double mMigr)               { _m_migr = mMigr; }
-	void SetDResMigrAct(double dResMigrAct)   { _dres_migr_act = dResMigrAct; }
-	void SetDResMigrPas(double dResMigrPas)   { _dres_migr_pas = dResMigrPas; }
-	void SetDCondMigrAct(double dCondMigrAct) { _dcond_migr_act = dCondMigrAct; }
-	void SetDCondMigrPas(double dCondMigrPas) { _dcond_migr_pas = dCondMigrPas; }
-
+	
 	void SetPActiveFlightConst(double pActiveFlightConst) { _p_active_flight_const = pActiveFlightConst; }
 	void SetPActiveFlight(NArray<double> pActiveFlight) { _p_active_flight = pActiveFlight;}
 	void SetEnvFoodSupply(NArray<double> envFoodSupply) { _env_food_supply = envFoodSupply;}
@@ -320,10 +316,6 @@ public:
 
 	unsigned int GetMigrDur()   { return _migr_dur; }
 	double  GetMMigr()          { return _m_migr; }
-	double  GetdResMigrAct()    { return _dres_migr_act; }
-	double  GetdResMigrPas()    { return _dres_migr_pas; }
-	double  GetdCondMigrAct()   { return _dcond_migr_act; }
-	double  GetdCondMigrPas()   { return _dcond_migr_pas; }
 
 	NArray<double> GetEps()   { return _eps; }
 	NArray<double> GetABar()  { return _a_bar; }
@@ -351,7 +343,12 @@ public:
 	FuncType & AlphaFunc()		{ return _alpha_func; }
 	FuncType & DFunc()			{ return _d_func; }
 	FuncType & MigActFuncX()    { return _migr_act_x_func; } 
-	FuncType & MigPasFuncX()    { return _migr_pas_x_func; } 	
+	FuncType & MigPasFuncX()    { return _migr_pas_x_func; } 
+	FuncType & DResMigrAct()    { return _dres_migr_act; }
+	FuncType & DResMigrPas()    { return _dres_migr_pas; }
+	FuncType & DCondMigrAct()   { return _dcond_migr_act; }
+	FuncType & DCondMigrPas()   { return _dcond_migr_pas; }	
+
 	///@} End of group started by \name
 };
 

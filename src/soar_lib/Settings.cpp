@@ -157,10 +157,6 @@ Settings::Settings() {
 
 	_p_active_flight_const = -1;
 	_migr_dur              = 0; 
-	_dres_migr_act		   = -1;
-	_dres_migr_pas		   = -1;
-	_dcond_migr_pas		   = -1;
-	_dcond_migr_act		   = -1;
 	_m_migr                = -1;
 
 	_delta_cond_start      = -1;
@@ -181,10 +177,10 @@ bool Settings::ValidateSettings()
 	if ( !_enable_migration ) {
 		_migr_dur = 1;
 		_m_migr   = 1;
-		_dres_migr_act  = _x_max;
-		_dres_migr_pas  = _x_max;
-		_dcond_migr_act = _y_max;
-		_dcond_migr_pas = _y_max;
+		_dres_migr_act.SetConstant(_x_max);
+		_dres_migr_pas.SetConstant(_x_max);
+		_dcond_migr_act.SetConstant(_y_max);
+		_dcond_migr_pas.SetConstant(_y_max);
 		_m_migr_x_func.SetConstant(0);
 
 		const int checks = 12;
@@ -352,12 +348,12 @@ bool Settings::ValidateSettings()
 	}
 
 	if (_enable_health_dim && _enable_migration) {
-		if (_dcond_migr_act < 0) {
-			printf("Error:  HealthCostsOfActiveFlight (%f) not set larger or equal to zero.", _dcond_migr_act);
+		if (_dcond_migr_act.GetType() == FuncType::FuncTypeVariant::FT_NONE) {
+			printf("Error:  HealthCostsOfActiveFlight needs to be set when migration option is enabled! \n");
 			okay = false;
 		}
-		if (_dcond_migr_pas < 0) {
-			printf("Error:  HealthCostsOfPassiveFlight (%f) not set larger or equal to zero.", _dcond_migr_pas);
+		if (_dcond_migr_pas.GetType() == FuncType::FuncTypeVariant::FT_NONE) {
+			printf("Error:  HealthCostsOfPassiveFlight needs to be set when migration option is enabled! \n");
 			okay = false;
 		}
 	}
@@ -392,12 +388,12 @@ bool Settings::ValidateSettings()
 		if (abs(_m_migr-1) <= 0.0000001) {
 			printf("Warning:  Due to PredationRiskDuringMigration ~= (%f), migration option will never be selected.\n", _m_migr);  
 		}		
-		if (_dres_migr_act < 0) {
-			printf("Error:  ReserveCostsOfActiveFlight (%f) not set larger or equal to zero! \n", _dres_migr_act);
+		if (_dres_migr_act.GetType() == FuncType::FuncTypeVariant::FT_NONE) {
+			printf("Error:  ReserveCostsOfActiveFlight needs to be set when migration option is enabled! \n");
 			okay = false;
 		}
-		if (_dres_migr_pas < 0) {
-			printf("Error:  ReserveCostsOfPassiveFlight (%f) not set larger or equal to zero! \n", _dres_migr_pas);
+		if (_dres_migr_pas.GetType() == FuncType::FuncTypeVariant::FT_NONE) {
+			printf("Error:  ReserveCostsOfPassiveFlight needs to be set when migration option is enabled! \n");
 			okay = false;
 		}
 		if (_m_migr_x_func.GetType() == FuncType::FuncTypeVariant::FT_NONE) { 

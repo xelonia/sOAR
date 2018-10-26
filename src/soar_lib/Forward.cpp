@@ -557,6 +557,10 @@ void Forward::Init(Settings *settings)
 
 	_x_max            = settings->GetXMax(); // Uses Forward._x_max  not StateFuncs._x_max
 	_e_max            = settings->GetEMax(); // Uses Forward._e_max  not StateFuncs._e_max
+	_dres_migr_act    = settings->DResMigrAct();
+	_dres_migr_pas    = settings->DResMigrPas();
+	_dcond_migr_act   = settings->DCondMigrAct();
+	_dcond_migr_pas   = settings->DCondMigrPas();
 	//---------------------------------------
 	// allocate array for summary statistics
 
@@ -867,7 +871,7 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 														// migrate
 
 														if (strat == 'm') {
-															Stoch_HMcN(X_m(_x_vec[x], e, 0, o, s, u_opt, t), Y_m(_x_vec[x], _y_vec[y], o, s, u_opt, t), cases);
+															Stoch_HMcN(X_m(_x_vec[x], e, 0, o, s, u_opt, t), Y_m(_x_vec[x], _y_vec[y], e, o, s, u_opt, t), cases);
 
 															if (s < (_s_cnt-1)) {
 																for (unsigned int xi=0; xi<_xi_max; xi++) {

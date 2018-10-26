@@ -94,7 +94,10 @@ private:
 
 	char            _filename_fw_pd[FILENAME_MAX];  // PopulationDynamics
 	char            _filename_fw_pd_year[FILENAME_MAX];	// Population dynamics in a single year
+	char		_filename_fw_mp_year[FILENAME_MAX]; // Mortality patterns in a single year
 	bool            _user_init_start_pop;
+	bool		_save_mortality_pattern_each_cycle;
+	bool		_save_final_mortality_pattern;
 	double          _lambda_fw_average;
 	double          _fw_convergence; 
 	bool            _fw_year_conv; 
@@ -155,6 +158,9 @@ private:
     };
 
 	NArray<double>     _FW_props;	
+	NArray<double>     _FW_predation;
+	NArray<double>     _FW_disease;
+	NArray<double>     _FW_starvation;
 	FwConvResultStruct _conv;
 
 	void Stoch_HMcN_AddStochNone (double x_case, double y_case, FwStochXYPropResultStruct &cases);
@@ -177,7 +183,7 @@ private:
 	}
 
     void CalcLambdaAndConvergence(NArray<double> &FW_props, NArray<double> &FW_old ,FwConvResultStruct & result);
-	void CalcLambdaAndConvergence_Toekoelyi(NArray<double> &FW_props, NArray<double> &FW_old ,FwConvResultStruct & result);
+    void CalcLambdaAndConvergence_Toekoelyi(NArray<double> &FW_props, NArray<double> &FW_old ,FwConvResultStruct & result);
         
     double Rand01(void);
 	bool IsNumber(double);
@@ -196,6 +202,7 @@ public:
 
     double ComputePopulationDynamics(Settings *settings);   
     void   SavePopulationDynamics(char *filename); 
+    void   SaveMortalityPatterns(char *filename);
 
 	// -------- NEW (start) ----------------------------------
 	/**

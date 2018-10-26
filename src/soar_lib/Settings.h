@@ -59,7 +59,9 @@ private:
 	/// @{ 
 	bool     _run_forward;         ///< Run forward simulation
 	bool     _run_backward;        ///< Run backward simulation
-	bool     _user_init_start_pop; ///< User-defined initialization of start population NEW
+	bool     _user_init_start_pop; ///< User-defined initialization of start population
+	bool     _save_mortality_pattern_each_cycle; ///< Save yearly mortality pattern
+	bool     _save_final_mortality_pattern;      ///< Save final mortality pattern
 	bool     _enable_migration;    ///< Enable migration option
 	bool     _enable_health_dim;   ///< Enable health dimension
 	bool     _calibrate_theta;     ///< Backward calibrate theta
@@ -194,6 +196,8 @@ public:
 	/// \name Setters
 	/// @{ 
 	void SetUserInitStartPop(bool userinitstartpop)  { _user_init_start_pop; } 
+	void SetSaveMortalityPatternEachCycle(bool savemortalitypatterneachcycle) { _save_mortality_pattern_each_cycle; }
+	void SetSaveFinalMortalityPattern(bool savefinalmortalitypattern) { _save_final_mortality_pattern; }
 	void SetN(unsigned int n)			{ _n = n; }                 ///< Set number of years for backward computation
 	void SetNMin(unsigned int nmin)     { _n_min = nmin; }
     void SetNFW(unsigned int n)		    { _n_fw = n; }              ///< Set number of years for forward computation
@@ -258,23 +262,25 @@ public:
 	/// @{ 
 	bool   GetRunForward()		      { return _run_forward;  }
 	bool   GetRunBackward()		      { return _run_backward; }
-	bool   GetUserInitStartPop()      { return _user_init_start_pop; } 
+	bool   GetUserInitStartPop()          { return _user_init_start_pop; } 
+	bool   GetSaveMortalityPatternEachCycle() { return _save_mortality_pattern_each_cycle; }
+	bool   GetSaveFinalMortalityPattern()     { return _save_final_mortality_pattern; }
 	bool   GetEnableMigration()       { return _enable_migration; }
 	bool   GetEnableHealthDim()       { return _enable_health_dim; }
 
-	unsigned int GetN()				  { return _n; }
-	unsigned int GetNMin()			  { return _n_min; }
-	char  *GetFilePrefix()		      { return _file_prefix; }
+	unsigned int GetN()		  { return _n; }
+	unsigned int GetNMin()		  { return _n_min; }
+	char  *GetFilePrefix()		  { return _file_prefix; }
 	bool   GetCalibrateTheta()        { return _calibrate_theta; }
 	double GetCalibrationThetaMin()   { return _calibrate_theta_min; }
 
-    unsigned int GetNFW()			   { return _n_fw; }
+        unsigned int GetNFW()			   { return _n_fw; }
 	unsigned int GetNMinFW()		   { return _n_min_fw; }	
 	char        *GetFilePrefixFW()	   { return _file_prefix_fw; }
-    unsigned int GetStartWeekFW()      { return _start_week_fw; }
+        unsigned int GetStartWeekFW()      { return _start_week_fw; }
 	unsigned int GetStartLocationFW()  { return _start_loc_fw; }
 
-    unsigned int GetTCnt()		{ return _t_cnt; }
+        unsigned int GetTCnt()		{ return _t_cnt; }
 	unsigned int GetGridX()		{ return _grid_x; }
 	unsigned int GetGridY()		{ return _grid_y; }
 
@@ -282,10 +288,10 @@ public:
 	double	GetXMax()			{ return _x_max; }
 	double	GetYMin()			{ return _y_min; }
 	double	GetYMax()			{ return _y_max; }
-    double	GetDx()             { return _dx; }
-    double	GetDy()             { return _dy; }
-    unsigned int GetXCnt()		{ return _x_cnt; }
-    unsigned int GetYCnt()		{ return _y_cnt; }
+   	double	GetDx()             { return _dx; }
+  	double	GetDy()             { return _dy; }
+    	unsigned int GetXCnt()		{ return _x_cnt; }
+   	unsigned int GetYCnt()		{ return _y_cnt; }
 
 
     double	GetXindep()         { return _x_indep; }

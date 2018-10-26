@@ -37,7 +37,9 @@ Settings::Settings() {
 	// ======== General settings ======== 
 	_pm.Add(_run_backward,         "RunBackward");
 	_pm.Add(_run_forward,          "RunForward");
-	_pm.Add(_user_init_start_pop,  "UserdefinedInitializationOfStartPopulation", true);	
+	_pm.Add(_user_init_start_pop,  "UserdefinedInitializationOfStartPopulation", true);
+	_pm.Add(_save_mortality_pattern_each_cycle, "SaveMortalityPatternEachCycle", true);
+	_pm.Add(_save_final_mortality_pattern,      "SaveFinalMortalityPattern", true);
 	_pm.Add(_enable_migration,     "EnableMigrationOption");
 	_pm.Add(_enable_health_dim,    "EnableHealthDimension");
 
@@ -143,6 +145,8 @@ Settings::Settings() {
 	// - FuncTypes are automatically instantiated to FT_NONE 
 	// - NArrays are empty.
 	_user_init_start_pop   = false;
+	_save_mortality_pattern_each_cycle = false;
+	_save_final_mortality_pattern      = false;
 	_y_min                 = -1;
 	_y_max                 = -1;
 	_grid_y                = 0;

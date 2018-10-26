@@ -82,10 +82,10 @@ private:
     double			_p_exp;
     double          _m_migr;
 
-	double          _dres_migr_act;
-	double          _dres_migr_pas;
-	double          _dcond_migr_act;
-	double          _dcond_migr_pas;
+	FuncType 	    _dres_migr_act;	///< Reserve costs of active flight
+	FuncType 	    _dres_migr_pas;	///< Reserve costs of passive flight
+	FuncType 	    _dcond_migr_act;	///< Health costs of active flight
+	FuncType 	    _dcond_migr_pas;   ///< Health costs of passive flight
     
     double          _crit;        
 

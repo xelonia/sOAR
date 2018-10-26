@@ -76,10 +76,10 @@ private:
 
 
 	double _m_migr;			///< Predation risk during migration per decision epoch
-	double _dres_migr_act;	///< Reserve costs of active flight
-	double _dres_migr_pas;	///< Reserve costs of passive flight
-	double _dcond_migr_act;	///< Health costs of active flight
-	double _dcond_migr_pas; ///< Health costs of passive flight
+	FuncType _dres_migr_act;	///< Reserve costs of active flight
+	FuncType _dres_migr_pas;	///< Reserve costs of passive flight
+	FuncType _dcond_migr_act;	///< Health costs of active flight
+	FuncType _dcond_migr_pas; ///< Health costs of passive flight
 
     double _delta_res_start;	///< Reserve costs of incubation
     double _delta_cond_start;	///< Reserve costs of care for young
@@ -134,7 +134,7 @@ protected:
 	double X_m (double x, int e, int a, int o, int s, double u, int t);
     double Y_s (double x, double y, double u, int t);
     double Y_ns (double x, double y, double u, int t);
-	double Y_m (double x, double y, int o, int s, double u, int t);    
+	double Y_m (double x, double y, int e, int o, int s, double u, int t);        
 
 	void InitStateFuncs(Settings *settings, double theta);
 public:

@@ -687,6 +687,9 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 	FW_props.Init(_x_cnt, _y_cnt, _e_cnt, _a_cnt, _o_cnt, _s_cnt, _t_cnt);
 	FW_old.Init(_x_cnt, _y_cnt, _e_cnt, _a_cnt, _o_cnt, _s_cnt, _t_cnt);
 	FW_props_renorm.Init(_x_cnt, _y_cnt, _e_cnt, _a_cnt, _o_cnt, _s_cnt, _t_cnt);
+	FW_predation.Init(_x_cnt, _y_cnt, _e_cnt, _a_cnt, _o_cnt, _s_cnt, _t_cnt);
+	FW_disease.Init(_x_cnt, _y_cnt, _e_cnt, _a_cnt, _o_cnt, _s_cnt, _t_cnt);
+	FW_starvation.Init(_x_cnt, _y_cnt, _e_cnt, _a_cnt, _o_cnt, _s_cnt, _t_cnt);
 
 	double lambda=0.0;
 	bool convergence=false;
@@ -741,7 +744,10 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 							for (unsigned int a=0;a<_a_cnt;a++) {
 								for (unsigned int o=0;o<_o_cnt;o++) {
 									for (unsigned int s=0;s<_s_cnt;s++) {
-										FW_props(x,y,e,a,o,s,(t+1)%_t_cnt) = 0.0;
+										FW_props(x,y,e,a,o,s,(t+1)%_t_cnt)      = 0.0;
+										FW_predation(x,y,e,a,o,s,(t+1)%_t_cnt)  = 0.0;
+										FW_disease(x,y,e,a,o,s,(t+1)%_t_cnt)    = 0.0;
+										FW_starvation(x,y,e,a,o,s,(t+1)%_t_cnt) = 0.0;
 									}}}}}}
 
 
@@ -790,6 +796,9 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 											else die_pred = M_mig(_x_vec[x]); //die_pred = _m_migr;
 											// disease related mortality
 											die_dis = D(_y_vec[y]);
+											
+											FW_predation(x,y,e,a,o,s,t) = FW_props(x,y,e,a,o,s,t) * die_pred;
+											FW_disease(x,y,e,a,o,s,t) = FW_props(x,y,e,a,o,s,t) * die_dis;
 
 											// note that mortality due to depletion of reserves or condition is modelled implicitly and can be extracted from the x=0 and y=0 columns of FW_props
 
@@ -804,6 +813,10 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 
 														FW_props(cases.x_grid[xi],cases.y_grid[yi],Chop(e+1,0,(_e_cnt-1)),0,o,s,(t+1)%_t_cnt) += FW_props(x,y,e,a,o,s,t) * cases.x_prop[xi] * cases.y_prop[yi] * (1-die_pred) * (1-die_dis) * _p_exp;                      
 														FW_props(cases.x_grid[xi],cases.y_grid[yi],e,0,o,s,(t+1)%_t_cnt) += FW_props(x,y,e,a,o,s,t) * cases.x_prop[xi] * cases.y_prop[yi] * (1-die_pred) * (1-die_dis) * (1-_p_exp);
+														
+														if (cases.x_grid[xi] <= 0) {
+															FW_starvation(x,y,e,a,o,s,t) += FW_props(x,y,e,a,o,s,t) * cases.x_prop[xi] * (1-die_pred) * (1-die_dis);
+														}
 													}}
 
 											}  else // end loop over no_care
@@ -818,9 +831,12 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 														for (unsigned int yi=0; yi<_yi_max; yi++) {
 
 															FW_props(cases.x_grid[xi],cases.y_grid[yi],Chop(e+1,0,(_e_cnt-1)),1,o,s,(t+1)%_t_cnt) += FW_props(x,y,e,a,o,s,t) * cases.x_prop[xi] * cases.y_prop[yi] * (1-die_pred) * (1-die_dis) * _p_exp;
-
 															FW_props(cases.x_grid[xi],cases.y_grid[yi],e,1,o,s,(t+1)%_t_cnt) += FW_props(x,y,e,a,o,s,t) * cases.x_prop[xi] * cases.y_prop[yi] * (1-die_pred) * (1-die_dis) * (1-_p_exp);
-
+															
+															if (cases.x_grid[xi] <= 0) {
+																FW_starvation(x,y,e,a,o,s,t) += FW_props(x,y,e,a,o,s,t) * cases.x_prop[xi] * (1-die_pred) * (1-die_dis);
+															}
+															
 														}}
 
 												} else // end loop over start brood
@@ -839,6 +855,10 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 
 																FW_props(cases.x_grid[xi],cases.y_grid[yi],e,a+1,o,s,(t+1)%_t_cnt) += FW_props(x,y,e,a,o,s,t) * cases.x_prop[xi] * cases.y_prop[yi] * (1-die_pred) * (1-die_dis) * (1-_p_exp);
 
+																if (cases.x_grid[xi] <= 0) {
+																	FW_starvation(x,y,e,a,o,s,t) += FW_props(x,y,e,a,o,s,t) * cases.x_prop[xi] * (1-die_pred) * (1-die_dis);
+																}
+																
 															}}
 
 													} else // end loop over care for brood
@@ -856,6 +876,10 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 																		FW_props(cases.x_grid[xi],cases.y_grid[yi],Chop(e+1,0,(_e_cnt-1)),0,o,s+1,(t+1)%_t_cnt) += FW_props(x,y,e,a,o,s,t) * cases.x_prop[xi] * cases.y_prop[yi] * (1-die_pred) * (1-die_dis) * _p_exp;
 
 																		FW_props(cases.x_grid[xi],cases.y_grid[yi],e,0,o,s+1,(t+1)%_t_cnt) += FW_props(x,y,e,a,o,s,t) * cases.x_prop[xi] * cases.y_prop[yi] * (1-die_pred) * (1-die_dis) * (1-_p_exp);
+																		
+																		if (cases.x_grid[xi] <= 0) {
+																			FW_starvation(x,y,e,a,o,s,t) += FW_props(x,y,e,a,o,s,t) * cases.x_prop[xi] * (1-die_pred) * (1-die_dis);
+																		}
 
 																	}}
 															} else {    // s = (s_cnt-1) -> last week of migration -> at other location and not migrating anymore in next week
@@ -865,6 +889,10 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 																		FW_props(cases.x_grid[xi],cases.y_grid[yi],Chop(e+1,0,(_e_cnt-1)),0,(o+1)%_o_cnt,0,(t+1)%_t_cnt) += FW_props(x,y,e,a,o,s,t) * cases.x_prop[xi] * cases.y_prop[yi] * (1-die_pred) * (1-die_dis) * _p_exp;
 
 																		FW_props(cases.x_grid[xi],cases.y_grid[yi],e,0,(o+1)%_o_cnt,0,(t+1)%_t_cnt) += FW_props(x,y,e,a,o,s,t) * cases.x_prop[xi] * cases.y_prop[yi] * (1-die_pred) * (1-die_dis) * (1-_p_exp);
+																		
+																		if (cases.x_grid[xi] <= 0) {
+																			FW_starvation(x,y,e,a,o,s,t) += FW_props(x,y,e,a,o,s,t) * cases.x_prop[xi] * (1-die_pred) * (1-die_dis);
+																		}
 
 																	}}
 															}
@@ -904,6 +932,15 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 		if (_user_init_start_pop) {
 			sprintf_s(_filename_fw_pd_year , "%s_populationdynamics_FW_%2d.bin", settings->GetFilePrefixFW(),year);
 			SavePopulationDynamics(_filename_fw_pd_year);
+		}
+		
+		// store/overwrite mortality results
+		_FW_predation  = FW_predation;
+		_FW_disease    = FW_disease;
+		_FW_starvation = FW_starvation;
+		if (_save_mortality_pattern_each_cycle) {
+			sprintf_s(_filename_fw_mp_year , "%s_mortality_FW_%2d.bin", settings->GetFilePrefixFW(),year);
+			SaveMortalityPatterns(_filename_fw_mp_year);
 		}
 
 		dlambda_fw    = fabs(lambda-lambda_old_fw);

@@ -81,6 +81,33 @@ void   Forward::SavePopulationDynamics(char *filename)
 	fclose(file);
 }
 
+void   Forward::SaveMortalityPatterns(char *filename)
+{
+	if (_FW_predation.GetSize()==0)  {
+		printf("Forward::SaveMortalityPatterns(%s) error. Size of predation array equals zero.");
+		return;
+	}
+	if (_FW_disease.GetSize()==0)  {
+		printf("Forward::SaveMortalityPatterns(%s) error. Size of disease array equals zero.");
+		return;
+	}
+	if (_FW_starvation.GetSize()==0)  {
+		printf("Forward::SaveMortalityPatterns(%s) error. Size of starvation array equals zero.");
+		return;
+	}
+
+	FILE *file = fopen(filename,"wb");
+	if (file==0) {
+		printf("Forward::SaveMortalityPatterns(%s) error opening the file for writing\n",filename);
+		return;
+	}    
+
+	_FW_predation.SaveBinary(file);
+	_FW_disease.SaveBinary(file);
+	_FW_starvation.SaveBinary(file);			
+
+	fclose(file);
+}
 
 bool Forward::LoadFwFromFile(char *filename) 
 {

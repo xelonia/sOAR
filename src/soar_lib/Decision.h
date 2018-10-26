@@ -169,13 +169,17 @@ public:
 	 * \return True if succesfull, else loading error
 	 */
 	bool LoadFromFile(char *filename);
-	///@} End of group started by \name
-
-
+	///@} End of group started by \name	
+	
 	/// \name Statistics output
 	/// @{ 
 	/// \brief Saves the summary statistics into an ascii file
 	void SaveSummaryStatisticsToFile(char *filename);
+	
+	/// \name Saving of mortality patterns
+	/// @{
+	/// \brief Saves mortality patterns (predation, disease, starvation) into an ascii file after each iteration.
+	bool SaveMortalityPatternsToFile(char *filename);
 
 	/// \brief Prints a summary to the console 
 	void PrintSummary();

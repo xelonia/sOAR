@@ -512,6 +512,8 @@ void Forward::Init(Settings *settings)
 	_conv.fw_convergence = false;
 
 	_user_init_start_pop = settings->GetUserInitStartPop();  
+	_save_mortality_pattern_each_cycle = settings->GetSaveMortalityPatternEachCycle();
+	_save_final_mortality_pattern      = settings->GetSaveFinalMortalityPattern();
 	_n_fw                = settings->GetNFW();
 	_n_min_fw            = settings->GetNMinFW();
 	_start_week_fw       = settings->GetStartWeekFW();

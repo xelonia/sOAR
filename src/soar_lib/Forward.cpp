@@ -683,7 +683,7 @@ double Forward::ComputePopulationDynamics(Settings *settings) {
 	//---------------------------------------
 	// allocate state array for storing proportions
 
-	NArray<double> FW_props_renorm, FW_props, FW_old;
+	NArray<double> FW_props_renorm, FW_props, FW_old, FW_predation, FW_disease, FW_starvation;
 	FW_props.Init(_x_cnt, _y_cnt, _e_cnt, _a_cnt, _o_cnt, _s_cnt, _t_cnt);
 	FW_old.Init(_x_cnt, _y_cnt, _e_cnt, _a_cnt, _o_cnt, _s_cnt, _t_cnt);
 	FW_props_renorm.Init(_x_cnt, _y_cnt, _e_cnt, _a_cnt, _o_cnt, _s_cnt, _t_cnt);

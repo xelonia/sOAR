@@ -745,7 +745,7 @@ private:
 		TestGroup();
 	}
 
-	void GenFuncTypeErrors(char *str, char *name)
+	void GenFuncTypeFail(char *str, char *name)
 	{
 		ExpectOkay(WriteConfigFile(str),"Save Functype %s",name);
 		{
@@ -757,18 +757,55 @@ private:
 		}
 	}
 
-	void TestFuncTypeErrors() {
-		TestGroup("FuncType errors");
+	void GenFuncTypeOkay(char *str, char *name, FuncType ftOkay) {
+		ExpectOkay(WriteConfigFile(str),"Save Functype %s",name);
+		{
+			LibconfigWrapper lcw;
+			lcw.Load(_fileName);
 
-		GenFuncTypeErrors("12","without list");
-		GenFuncTypeErrors("(1, 2, 3)","with too long list");
-		GenFuncTypeErrors("(1, 2)","without first string");
-		GenFuncTypeErrors("( \"name\", 2","without second list");
-		GenFuncTypeErrors("( \"bad\", (1,2)","with bad func");
-		GenFuncTypeErrors("( \"Constant\", (1,2)","const with bad params");
-		GenFuncTypeErrors("( \"Quadratic\", (1,2)","quadratic with bad params");
-		GenFuncTypeErrors("( \"Linear\", (1)","linear with bad params");
-		GenFuncTypeErrors("( \"Linear\", (false, false)","linear with bad paramytpe");
+			FuncType ft;
+			ExpectOkay(lcw.Parse(&ft,"tmp", T_DOUBLE, M_FUNCTYPE ), "Parse Functype %s",name);
+
+			ExpectOkay( ft == ftOkay, "Functype parsed okay");
+		}
+	}
+
+	void TestFuncType() {
+		TestGroup("FuncType Parsing");
+
+		FuncType ftC12, ftLin, ftQuad,ftHyp,ftSig,ftExp,ftDy; 
+		ftC12.SetConstant(12);
+		ftLin.SetLinear(7.5, 0.75);
+		ftQuad.SetQuadratic(-13.13, 3.14, 2.81 );
+		ftHyp.SetHyperbolic(9.09, -1.82);
+		ftSig.SetSigmoid(0.021, 3.14);
+		ftExp.SetExponential(2.81, 3.14);
+		ftDy.SetDy(-7.339, 765.31);
+
+
+		GenFuncTypeOkay("12","constant int", ftC12 );
+		GenFuncTypeOkay("12.0","constant float", ftC12);
+		GenFuncTypeOkay("( \"Constant\", (12) )","constant float", ftC12);
+		GenFuncTypeOkay("( \"Constant\", (12.0) )","constant float", ftC12);
+		GenFuncTypeOkay("( \"Linear\", (7.5, 0.75) )","linear", ftLin);
+		GenFuncTypeOkay("( \"Quadratic\", (-13.13, 3.14, 2.81) )","quadratic", ftQuad);
+		GenFuncTypeOkay("( \"Hyperbolic\", (9.09, -1.82) )","hyperbolic", ftHyp);
+		GenFuncTypeOkay("( \"Sigmoid\", (0.021, 3.14) )","sigmoid", ftSig);
+		GenFuncTypeOkay("( \"Exponential\", (2.81, 3.14) )","exponential", ftExp);
+		GenFuncTypeOkay("( \"Dy\", (-7.339, 765.31) )","dy", ftDy);
+
+		TestGroup();
+
+		TestGroup("FuncType Error Checks");
+
+		GenFuncTypeFail("(1, 2, 3)","with too long list");
+		GenFuncTypeFail("(1, 2)","without first string");
+		GenFuncTypeFail("( \"name\", 2 )","without second list");
+		GenFuncTypeFail("( \"bad\", (1,2) )","with bad func");
+		GenFuncTypeFail("( \"Constant\", (1,2) )","const with bad params");
+		GenFuncTypeFail("( \"Quadratic\", (1,2) )","quadratic with bad params");
+		GenFuncTypeFail("( \"Linear\", (1) )","linear with bad params");
+		GenFuncTypeFail("( \"Linear\", (false, false) )","linear with bad paramytpe");
 
 		{
 			LibconfigWrapper lcw;
@@ -793,7 +830,7 @@ public:
 		TestGetValSpecialCases();
 		TestNArraySpecialCases();
 		TestArraySpecialCases();
-		TestFuncTypeErrors();
+		TestFuncType();
 		TestConfigSpecialCases();
 		TestConfigOptionalCases();
 	}

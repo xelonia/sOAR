@@ -302,6 +302,19 @@ template <> bool LibconfigWrapper::GetVal(libconfig::Setting &set, double &d)
 #ifndef LCW_NO_FUNCTYPE
 bool LibconfigWrapper::ParseAndSetFuncType(libconfig::Setting &set, void *data)
 {
+	// parse int constant values into constant FuncType
+	if (set.getType()==libconfig::Setting::TypeInt) {
+		int iVal  = set;
+		((FuncType *)data)->SetConstant( iVal );				
+		return true;
+	}
+
+	// parse float constant values into constant FuncType
+	if (set.getType()==libconfig::Setting::TypeFloat) {
+		((FuncType *)data)->SetConstant( set );				
+		return true;
+	}
+
 	// All FuncTypes are stored as list with two entries
 	if (set.getType()!=libconfig::Setting::TypeList || set.getLength() != 2) {
 		strcpy_s(_currErrMsg,"Needs to be a list with 2 entries, a string and a nested list" );

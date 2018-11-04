@@ -21,6 +21,7 @@
 *
 * <DIV class="groupHeader">Versions</DIV>
 * \code
+*   26.10.2018 Added comparison operator
 *   16.01.2016 Added assignment operator, comments and getter functions
 *   29.08.2015 Initial version
 * \endcode
@@ -263,6 +264,11 @@ public:
 		_warn = ft._warn;
 		return *this;
 	}	
+	
+	/// \brief Comparison operator. 
+	bool operator==(const FuncType &other) const {
+		return _type == other._type && _a==other._a && _b==other._b && _c==other._c; 
+	}
 
 	/// \brief Returns if function equals constant 0.0
 	bool IsZero() {

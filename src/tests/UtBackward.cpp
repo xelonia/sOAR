@@ -190,19 +190,26 @@ public:
 		}
 
 
-		/// \brief Check all result of a specific year versus the other results
-		bool IsYearSameAs(UtBackwardStats &other, int y) {
+		/// \brief Check lambda of a specific year versus the other results
+		bool IsYearLambdaSameAs(UtBackwardStats &other, int y) {
+			double delta = fabs( _lambda(y) - other._lambda(y));
+
 			if ( _lambda(y) >1000 && other._lambda(y)>1000) {
-				if ( fabs( _lambda(y) - other._lambda(y) ) >0.0001 * _lambda(y) ) {
-					printf("Lambda(%d) differs in result file (big value) %f %f  delta=%f\n",y,_lambda(y),other._lambda(y),fabs( _lambda(y) - other._lambda(y) ));
+				if ( delta >0.0001 * _lambda(y) ) {
+					printf("Lambda(year=%d) differs in result file (big value) %f %f  delta=%f\n",y,_lambda(y),other._lambda(y),delta );
 					return false;
 				}
 			}
-			else if ( fabs( _lambda(y) - other._lambda(y) ) > 0.00001) {
-				printf("Lambda(%d) differs in result file\n",y);
+			else if ( delta > 0.00002) {
+				printf("Lambda(year=%d) differs delta=%f in result file\n",y,delta);
 				return false;
 			}
 
+			return true;
+		}
+
+		/// \brief Count the number of result state differences of a specific year versus the other results
+		int CountResultStateDifferences(UtBackwardStats &other, int y) {
 			int differences = 0;
 			for(unsigned int o=0; o<_stateC.GetDim(0); o++) {
 				for(unsigned int t=0; t<_stateC.GetDim(2); t++) {
@@ -230,20 +237,31 @@ public:
 			}
 			if (differences>0)
 			{
-				printf("Total number of state differences = %d\n",differences);
-				return false;
+				printf("Total number of state differences = %d in year=%d\n",differences,y);
 			}
-			return true;
+
+			return differences;
 		}
 
 		/// \brief Check all results versus the other results
 		bool IsSameAs(UtBackwardStats &other) {
+			int diffs = 0;
 			for(unsigned int y=0; y<_lambda.GetDim(0); y++) {
-				if (!IsYearSameAs(other, y) )
+
+				// Lambda differences are hard differences
+				if (!IsYearLambdaSameAs(other, y) )
 					return false;
+
+				// Allow 2 state shifts per year
+				int currDiff = CountResultStateDifferences(other, y);
+				if (currDiff > 4)
+					return false;
+
+				diffs += currDiff;
 			}
 
-			return true;
+			// Allow a total of 10 state-shifts for whole simulation
+			return diffs <= 10;
 		}
 
 		/// \brief Save results to ascii file
@@ -517,7 +535,8 @@ public:
 		UtBackwardStats resultStatsB;
 		backward.SetDecision(&decisionB);
 
-		settings.SetN( (years/2)+1); // Only calc half of the years...
+		int yearMT = (years/2)+1;
+		settings.SetN( yearMT ); // Only calc half of the years...
 		settings.SetNMin(1);
 		decision.SetYear(0);
 
@@ -526,8 +545,9 @@ public:
 		double lambdaB = backward.Compute(&settings, theta);
 		resultStatsB.Update(settings, decisionB);
 
-		// Check all values of results vs expected
-		ExpectOkay(resultStats.IsYearSameAs(resultStats, years-1),"Results of multi-year differ from N*single-year");
+		// Check end values of multi-year run versus corresponding single year run
+		ExpectOkay(resultStats.IsYearLambdaSameAs(resultStatsB, yearMT-1),"Lambda of multi-year differ from N*single-year");
+		ExpectOkay(resultStats.CountResultStateDifferences(resultStatsB, yearMT-1)==0,"State of multi-year differ from N*single-year");
 
 		TestGroup();
 	}

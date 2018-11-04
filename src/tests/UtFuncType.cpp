@@ -28,6 +28,37 @@ public:
 	{
 	}
 
+	/// \brief Tests FuncType operators
+	void TestOperators() {
+		FuncType ft;
+
+		TestGroup("FuncType operators");
+		FuncType ftA, ftB, ftC, ftD, ftE, ftF, ftG;
+
+		ExpectOkay(ftA.GetType()==FuncType::FT_NONE, "Initital type" );
+
+		ftA.SetQuadratic(3.14, -2.81, 0.00003);
+
+		ftB = ftA;
+		ExpectOkay(    ftB.GetType()==FuncType::FT_QUADRATIC 
+					&& ftB.GetParam(0)==3.14 
+					&& ftB.GetParam(1)==-2.81
+					&& ftB.GetParam(2)==0.00003, "operator=" );
+
+		ftC.SetQuadratic(3.14, -2.81, 0.00003);
+		ftD.SetHyperbolic(3.14, -2.81);
+		ftE.SetQuadratic(3.15, -2.81, 0.00003);
+		ftF.SetQuadratic(3.14, -2.80, 0.00003);
+		ftG.SetQuadratic(3.14, -2.81, 0.00004);
+
+		ExpectOkay( ftA == ftC, "operator== with same");
+		ExpectFail( ftA == ftD, "operator== with different type");
+		ExpectFail( ftA == ftE, "operator== with different A0");
+		ExpectFail( ftA == ftE, "operator== with different A1");
+		ExpectFail( ftA == ftE, "operator== with different A2");
+		
+		TestGroup();
+	}
 
 	/// \brief Tests FuncType.Constant() with random numbers
 	void TestConstant() {
@@ -458,6 +489,7 @@ public:
 	}
 
 	void RunTests() {
+		TestOperators();
 		TestConstant();
 		TestLinear();
 		TestQuadratic();
